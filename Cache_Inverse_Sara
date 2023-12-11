@@ -1,0 +1,34 @@
+makeCacheMatrix <- function(x = matrix()) {
+  
+  # Initialize matrix
+  mat <- x
+  
+  # initialize cahced inverse
+  cached_inverse <- NULL
+  
+  # Function to set the matrix and reset the cached inverse
+  set <- function(y) {
+    mat <<- y
+    cached_inverse <<- NULL
+  }
+  
+  # Function to calculate and cache the inverse of the matrix
+  cacheSolve <- function() {
+    if (!is.null(cached_inverse)) {
+      message("Getting cached inverse")
+      return(cached_inverse)
+    } else {
+      message("Calculating and caching the inverse")
+      cached_inverse <- solve(mat)
+      return(cached_inverse)
+    }
+  }
+  
+  # Return a list of functions
+  list(set = set, get = get, cacheSolve = cacheSolve)
+}
+
+## Function to compute the inverse of the special "matrix" and retrieve from cache if already calculated
+cacheSolve <- function(x, ...) {
+  x$cacheSolve()
+}
